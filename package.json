@@ -25,7 +25,8 @@
     "@types/mocha": "^5.1.1",
     "slp-unit-test-data": "git+https://github.com/simpleledger/slp-unit-test-data.git",
     "bitcoin-rpc-promise-retry": "^1.1.1",
-    "grpc-bchrpc-node": "0.5.3",
+    "grpc-bchrpc-node": "0.6.2",
+    "grpc-slp-graphsearch-node": "^0.0.1",
     "browserify": "^16.2.2",
     "uglify-es": "^3.3.9",
     "mkdirp": "^0.5.1"

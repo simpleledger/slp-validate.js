@@ -26,6 +26,7 @@ The following examples are provided in the examples directory:
  - `2-validate-tx-rpc-burn-valid-allow.ts`: Allows sending a valid burn transaction
  - `3-validate-txid-rpc.ts`: Traditional SLP validate method by txid (offers no extra burn protection).
  - `4-validate-txid-bchd.ts`: Similar to example 3, but uses BCHD's gRPC instead of JSON RPC.
+ - `5-validate-txid-gs++.ts`: Validate more quickly by downloading transactions in bulk from SLP graph search instead of downloading transactions individually via RPC.
 
 
 
