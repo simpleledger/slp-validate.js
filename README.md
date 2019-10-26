@@ -32,10 +32,14 @@ The following examples are provided in the examples directory:
 
 ## Change Log
 
+### 1.0.1
+- add ts linting to the project
+- add example for using gs++ as validation source
+
 ### 1.0.0
 - ported validator from slpjs 0.21.3
 - store cached transactions as buffer instead of a string
-- Add max cache size parameters in ValidatorType1 constructor
+- add max cache size parameters in ValidatorType1 constructor
 
 
 

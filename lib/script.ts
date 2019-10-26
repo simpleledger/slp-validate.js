@@ -5,7 +5,7 @@ export class Script {
         OP_PUSHDATA1: 76,
         OP_PUSHDATA2: 77,
         OP_PUSHDATA4: 78,
-        OP_1NEGATE : 79,
+        OP_1NEGATE: 79,
         OP_RETURN: 106,
     }
 }

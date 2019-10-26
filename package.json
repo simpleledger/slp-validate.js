@@ -1,6 +1,6 @@
 {
   "name": "slp-validate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SLP transaction validator",
   "main": "index.js",
   "files": [
@@ -29,6 +29,8 @@
     "grpc-slp-graphsearch-node": "^0.0.1",
     "browserify": "^16.2.2",
     "uglify-es": "^3.3.9",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "typescript-tslint-plugin": "^0.5.4",
+    "typescript": "^3.6.4"
   }
 }

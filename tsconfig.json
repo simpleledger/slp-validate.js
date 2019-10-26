@@ -7,6 +7,9 @@
     "sourceMap": true,                     /* Generates corresponding '.map' file. */
     "downlevelIteration": true,             /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
     "strict": true,                         /* Enable all strict type-checking options. */
-    "esModuleInterop": true                 /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "esModuleInterop": true,                 /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "plugins": [
+      { "name": "typescript-tslint-plugin" }
+    ]
   }
 }
