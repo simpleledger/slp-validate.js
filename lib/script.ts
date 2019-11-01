@@ -1,5 +1,5 @@
 export class Script {
-    static opcodes = {
+    public static opcodes = {
         OP_0: 0,
         OP_16: 96,
         OP_PUSHDATA1: 76,
@@ -7,5 +7,5 @@ export class Script {
         OP_PUSHDATA4: 78,
         OP_1NEGATE: 79,
         OP_RETURN: 106,
-    }
+    };
 }

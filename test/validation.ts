@@ -32,10 +32,6 @@ describe("Slp", () => {
                     slpValidator.addValidationFromStore(w.tx, w.valid);
                 });
 
-                // if (test.description === "When given two SLP-valid inputs, the SEND should be SLP-invalid since token version/type changed to NFT1 parent type (having fake child GENESIS txid)") {
-                //     console.log("bp");
-                // }
-
                 const txid = Crypto.hash256(Buffer.from(test.should[0].tx, "hex")).toString("hex");
                 const shouldBeValid = test.should[0].valid;
                 let isValid;
