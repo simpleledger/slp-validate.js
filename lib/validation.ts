@@ -2,7 +2,7 @@ import Big from "big.js";
 import { CacheMap } from "./cachemap";
 import { Crypto } from "./crypto";
 import { IValidSlpTxidParams, IValidSlpTxnParams } from "./interfaces";
-import { Slp, SlpTransactionDetails, SlpTransactionType } from "./slp";
+import { Slp, SlpTransactionDetails, SlpTransactionType, SlpVersionType } from "./slp";
 import { Transaction } from "./transaction";
 
 export interface Validation {
@@ -101,8 +101,27 @@ export class ValidatorType1 {
         throw Error("Transaction data not provided (null or undefined).")
     }
 
-    public async isValidSlpTxn(
-        { txn, tokenIdFilter, tokenTypeFilter, burnQuantity= Big(0) }: IValidSlpTxnParams): Promise<boolean> {
+    /**
+     * isValidSlpTxn
+     *
+     * Description:
+     * This public method can be use with SEND type transactions to prevent accidental
+     * of tokens having the same token ID.
+     *
+     * @param txn: hex string or buffer of the raw transaction to be validated
+     * @param tokenIdFilter: (optional) token id of the token that should be considered valid
+     * @param tokenTypeFilter: (optional) token type of the token that should be considered valid
+     * @param burnQuantity: (optional) quantity of token to be burned (for same token id)
+     *
+     * Notes/Warnings:
+     *   * This method does not yet check for burned inputs from another token IDs.
+     *   * This method does not yet check for proper burn quanity of NFT1 parent
+     *   * This method only works with SEND or type 0x01/0x81 GENESIS/MINT.
+     *   * Burning operations must be done using a valid SLP SEND OP_RETURN message.
+     */
+    public async isValidSlpTxn({ txn, tokenIdFilter, tokenTypeFilter, burnQuantity= Big(0) }: IValidSlpTxnParams):
+        Promise<boolean> {
+
         let txid;
         if (typeof txn === "string") {
             const txnBuf = Buffer.from(txn, "hex");
@@ -151,6 +170,21 @@ export class ValidatorType1 {
         return validity;
     }
 
+    /**
+     * isValidSlpTxid
+     *
+     * Description:
+     * This public method is used to determine validity of any type of token transaction
+     *
+     * @param txid: hex string or buffer of the raw transaction to be validated
+     * @param tokenIdFilter: (optional) token id of the token that should be considered valid
+     * @param tokenTypeFilter: (optional) token type of the token that should be considered valid
+     *
+     * Notes/Warnings:
+     *   * This method does not prevent burning, for burn prevention checking in SEND
+     *     use 'isValidSlpTxn()'.
+     *
+     */
     public async isValidSlpTxid(
         { txid, tokenIdFilter, tokenTypeFilter }: IValidSlpTxidParams): Promise<boolean> {
         this.logger.log("[slp-validate] Validating: " + txid);
@@ -164,27 +198,35 @@ export class ValidatorType1 {
         return valid;
     }
 
-    //
-    // This method uses recursion to do a Depth-First-Search with the node result being
-    // computed in Postorder Traversal (left/right/root) order.  A validation cache
-    // is used to keep track of the results for nodes that have already been evaluated.
-    //
-    // Each call to this method evaluates node validity with respect to
-    // its parent node(s), so it walks backwards until the
-    // validation cache provides a result or the GENESIS node is evaluated.
-    // Root nodes await the validation result of their upstream parent.
-    //
-    // In the case of NFT1 the search continues to the group/parent NFT DAG after the Genesis
-    // of the NFT child is discovered.
-    //
+    /**
+     * _isValidSlpTxid
+     *
+     * Description:
+     * This internal method uses recursion to do a Depth-First-Search with the node result being
+     * computed in Postorder Traversal (left/right/root) order.  A validation cache
+     * is used to keep track of the results for nodes that have already been evaluated.
+     *
+     * Each call to this method evaluates node validity with respect to
+     * its parent node(s), so it walks backwards until the
+     * validation cache provides a result or the GENESIS node is evaluated.
+     *
+     * Root nodes await the validation result of their upstream parent.
+     * In the case of NFT1 the search continues to the group/parent NFT DAG after the Genesis
+     * of the NFT child is discovered.
+     *
+     * @param txid: hex string or buffer of the raw transaction to be validated
+     * @param tokenIdFilter: (optional) token id of the token that should be considered valid
+     * @param tokenTypeFilter: (optional) token type of the token that should be considered valid
+     *
+     */
     async _isValidSlpTxid(txid: string, tokenIdFilter?: string, tokenTypeFilter?: number): Promise<boolean> {
         // Check to see if this txn has been processed by looking at shared cache, if doesn't exist then download txn.
         if (!this.cachedValidations.has(txid)) {
             this.cachedValidations.set(txid, {
-                validity: null,
-                parents: [],
                 details: null,
                 invalidReason: null,
+                parents: [],
+                validity: null,
                 waiting: false,
             });
             await this.retrieveRawTransaction(txid);
