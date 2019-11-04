@@ -118,10 +118,13 @@ export class Slp {
         if (chunks.length === 2) {
             throw Error("Missing SLP transaction type");
         }
-        try {
-            const msgType: string = chunks[2]!.toString("latin1");
-            slpMsg.transactionType = SlpTransactionType[msgType as keyof typeof SlpTransactionType];
-        } catch (_) {
+        if (chunks[2]!.toString("hex") === "47454e45534953") {
+            slpMsg.transactionType = SlpTransactionType.GENESIS;
+        } else if (chunks[2]!.toString("hex") === "4d494e54") {
+            slpMsg.transactionType = SlpTransactionType.MINT;
+        } else if (chunks[2]!.toString("hex") === "53454e44") {
+            slpMsg.transactionType = SlpTransactionType.SEND;
+        } else {
             throw Error("Bad transaction type");
         }
         if (slpMsg.transactionType === SlpTransactionType.GENESIS) {
