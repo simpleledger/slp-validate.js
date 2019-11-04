@@ -30,7 +30,23 @@ The following examples are provided in the examples directory:
 
 
 
+## Unit Tests
+
+Run unit tests using `npm run test`.  The majority of tests are driven by test vectors located in the [slp-unit-test-data](https://github.com/simpleledger/slp-unit-test-data.git) repository.
+
+
+
+## Differential Testing
+
+Run differential fuzzing with Electron Cash SLP edition by following the docs in [./fuzzer/README.md](./fuzzer/README.md).
+
+
+
 ## Change Log
+
+### 1.1.1
+- added testing framework for differential fuzzing
+- fix missing null check in parseSlpOutputScript
 
 ### 1.1.0
 - fixed bug in isValidSlpTxn (issue #4)

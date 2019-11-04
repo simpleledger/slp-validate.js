@@ -1,6 +1,6 @@
 {
   "name": "slp-validate",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "SLP transaction validator",
   "main": "index.js",
   "files": [
@@ -16,13 +16,13 @@
   "license": "ISC",
   "unpkg": "dist/slpvalidate.min.js",
   "dependencies": {
-    "big.js": "5.2.2",
-    "@types/big.js": "^4.0.5",
-    "@types/node": "^12.7.5"
+    "big.js": "5.2.2"
   },
   "devDependencies": {
-    "mocha": "^5.1.1",
     "@types/mocha": "^5.1.1",
+    "@types/big.js": "^4.0.5",
+    "@types/node": "^12.7.5",
+    "mocha": "^5.1.1",
     "slp-unit-test-data": "git+https://github.com/simpleledger/slp-unit-test-data.git",
     "bitcoin-rpc-promise-retry": "^1.1.1",
     "grpc-bchrpc-node": "0.6.2",
@@ -31,6 +31,7 @@
     "uglify-es": "^3.3.9",
     "mkdirp": "^0.5.1",
     "typescript-tslint-plugin": "^0.5.4",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "jsfuzz": "^1.0.7"
   }
 }

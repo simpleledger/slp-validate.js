@@ -3,3 +3,8 @@ node_modules
 *.js.map
 *.d.ts
 dist
+fuzzer/lib
+fuzzer/corpus
+fuzzer/inputs
+fuzzer/crash-*
+.DS_Store
