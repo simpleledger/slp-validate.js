@@ -32,7 +32,17 @@ The following examples are provided in the examples directory:
 
 ## Change Log
 
+### 1.1.0
+- fixed bug in isValidSlpTxn (issue #4)
+- added JSDoc headers to some core methods in validation.ts
+- use explicit checking of txn type when parsing SLP message
+- fixed missing "unpkg" declaration in package.json
+- more ts linting
+- (breaking change) renamed MapCache to CacheMap
+- (breaking change) removed .ts files from npm pkg, include .d.ts.
+
 ### 1.0.1
+- fixed severe security vulnerability in parseSlpOutputScript
 - add ts linting to the project
 - add example for using gs++ as validation source
 
