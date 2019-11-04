@@ -118,26 +118,36 @@ export class ValidatorType1 {
             return validity;
         }
         const validation = this.cachedValidations.get(txid)!;
-        if (burnQuantity.eq(0)) {
-            let validInputs: Big;
-            let outputs: Big;
+        let validInputs: Big;
+        let outputs: Big;
+        const txnType = validation.details!.transactionType;
+
+        if (txnType === SlpTransactionType.SEND) {
             outputs = validation.details!.sendOutputs!.reduce((p, c) => p.plus(c), Big(0));
-            validInputs = validation.parents.map(p =>
-                p.inputQty ? p.inputQty : Big(0)).reduce((p, c) => p.plus(c), Big(0));
-            if (!validInputs.eq(outputs) && validation.details!.transactionType === SlpTransactionType.SEND) {
+        } else if ([SlpTransactionType.GENESIS, SlpTransactionType.MINT].includes(txnType) &&
+                   (SlpVersionType.TokenVersionType1 ||
+                   SlpVersionType.TokenVersionType1_NFT_Parent)
+        ) {
+            return validity;
+        } else {
+            // This is here for NFT1 child type, since this method does not yet check accidental burning of NFT1 parent.
+            throw Error("[slp-validate] isValidSlpTxn() for this type of transaction is not yet implemented (use 'isValidSlpTxid' instead).");
+        }
+
+        validInputs = validation.parents.map(p => p.inputQty ?
+                                                    p.inputQty :
+                                                    Big(0)).reduce((p, c) => p.plus(c), Big(0));
+
+        if (burnQuantity.eq(0)) {
+            if (!validInputs.eq(outputs)) {
                 throw Error("[slp-validate] Outputs do not match valid inputs");
             }
         } else if (burnQuantity.gt(0)) {
-            let validInputs: Big;
-            let outputs: Big;
-            outputs = validation.details!.sendOutputs!.reduce((p, c) => p.plus(c), Big(0));
-            validInputs = validation.parents.map(p =>
-                p.inputQty ? p.inputQty : Big(0)).reduce((p, c) => p.plus(c), Big(0));
-            if (!validInputs.minus(burnQuantity).eq(outputs) &&
-            validation.details!.transactionType === SlpTransactionType.SEND) {
+            if (!validInputs.minus(burnQuantity).eq(outputs)) {
                 throw Error("[slp-validate] Burn amount specified is not properly being burned in the provided transaction.");
             }
         }
+
         return validity;
     }
 
