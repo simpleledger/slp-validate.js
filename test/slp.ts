@@ -1,20 +1,20 @@
-import { Slp } from '../lib/slp';
-import assert from 'assert';
+import assert from "assert";
+import { Slp } from "../lib/slp";
 
-const scriptUnitTestData = require('slp-unit-test-data/script_tests.json');
+const scriptUnitTestData = require("slp-unit-test-data/script_tests.json");
 
-describe('Slp', function() {
+describe("Slp", () => {
 
-    describe('parseSlpOutputScript() -- SLP OP_RETURN Unit Tests', function() {
-        scriptUnitTestData.forEach((test: any)=> {
+    describe("parseSlpOutputScript() -- SLP OP_RETURN Unit Tests", () => {
+        scriptUnitTestData.forEach((test: any) => {
             it(test.msg, () => {
-                let script = Buffer.from(test.script, 'hex');
-                let eCode = test.code;
-                if(eCode) {
-                    assert.throws(function() { Slp.parseSlpOutputScript(script) });
+                const script = Buffer.from(test.script, "hex");
+                const eCode = test.code;
+                if (eCode) {
+                    assert.throws(() => { Slp.parseSlpOutputScript(script); });
                 } else {
-                    let parsedOutput = Slp.parseSlpOutputScript(script);
-                    assert(typeof parsedOutput, 'object');
+                    const parsedOutput = Slp.parseSlpOutputScript(script);
+                    assert(typeof parsedOutput, "object");
                 }
             });
         });

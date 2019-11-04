@@ -52,6 +52,13 @@ describe("Slp", () => {
             });
         });
     });
+
+    // describe("isValidSlpTxn() -- SLP Transaction Burn Protection", () => {
+    //     it("todo" async () => {
+
+    //     });
+    // });
+
 });
 
 interface SlpValidityUnitTest {
