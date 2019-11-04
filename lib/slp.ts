@@ -118,6 +118,9 @@ export class Slp {
         if (chunks.length === 2) {
             throw Error("Missing SLP transaction type");
         }
+        if (!chunks[2]) {
+            throw Error("Bad transaction type");
+        }
         if (chunks[2]!.toString("hex") === "47454e45534953") {
             slpMsg.transactionType = SlpTransactionType.GENESIS;
         } else if (chunks[2]!.toString("hex") === "4d494e54") {
