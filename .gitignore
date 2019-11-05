@@ -7,4 +7,6 @@ fuzzer/lib
 fuzzer/corpus
 fuzzer/inputs
 fuzzer/crash-*
+fuzzer/corpus.tar.gz
 .DS_Store
+.nyc_output

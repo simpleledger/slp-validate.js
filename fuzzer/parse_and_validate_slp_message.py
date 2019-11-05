@@ -19,10 +19,10 @@ out = (TYPE_ADDRESS, Address.from_string("qz4242424242424242424242424242424gl8s9
 inp = stdin_compat.read(2048)
 script = ScriptOutput(inp)
 t = Transaction.from_io(inputs, [(TYPE_SCRIPT, script, 0), out])
-ret = val.get_info(t)
+ret = val.get_info(t, diff_testing_mode=True)
 
 if len(ret) == 2:
-    ret = val_nft.get_info(t) 
+    ret = val_nft.get_info(t, diff_testing_mode=True) 
     if len(ret) == 2:
         print("fail")
     else:
@@ -31,4 +31,3 @@ else:
     print("pass")
 
 exit(0)
-

@@ -5,14 +5,15 @@ import { Slp } from "../lib/slp";
 
 function fuzz(buf: Buffer) {
     let result = null;
-    const output = cp.execSync("./parse_and_validate_slp_message.py", { input: buf }).toString();
+    let output;
     try {
+        output = cp.execSync("./parse_and_validate_slp_message.py", { input: buf }).toString();
         result = Slp.parseSlpOutputScript(buf);
         const chunks = Slp.parseOpReturnToChunks(buf);
         console.log(chunks);
         assert(result !== null);
-        console.log(result);
-        assert(output == "pass\n");
+        console.log(`Result: ${result}`);
+        assert(output === "pass\n");
     } catch (e) {
         if (e.message.indexOf("Bad OP_RETURN") !== -1 ||
             e.message.indexOf("Empty OP_RETURN") !== -1 ||
@@ -22,7 +23,7 @@ function fuzz(buf: Buffer) {
             e.message.indexOf("Mint baton cannot be on vout=0 or 1") !== -1 ||
             e.message.indexOf("Bad send quantity buffer.") !== -1 ||
 
-            e.message.indexOf("Unsupported token type: ") !== -1 ||
+            e.message.includes("Unsupported token type:") ||
             e.message.indexOf("Field has wrong length") !== -1 ||
             e.message.indexOf("SEND quantities must be 8-bytes each.") !== -1 ||
             e.message.indexOf("MINT with incorrect number of parameters") !== -1 ||
@@ -57,8 +58,13 @@ function fuzz(buf: Buffer) {
             e.message.indexOf("NFT1 child token must not have a minting baton!") !== -1 ||
             e.message.indexOf("Bad transaction type") !== -1) {
                 assert(result === null);
-                assert(output == "fail\n");
-                console.log(e.message);
+                assert(output === "fail\n");
+                console.log(`Result: ${e.message}`);
+        } else if (e.message === "spawnSync /bin/sh EPIPE") {
+            // For some reason this happens sometimes, it is unrelated to relevant fuzzer findings
+            assert(true);
+            console.log(e.message);
+            // throw e;
         } else {
             throw e;
         }
