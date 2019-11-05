@@ -9,7 +9,7 @@ Lightweight SLP validator with pre-broadcast validation and burn protection.
 ## Installation
 
 #### For node.js
-`npm install slp-validate`
+`$ npm install slp-validate`
 
 #### For browser
 ```<script src='https://unpkg.com/slp-validate'></script>```
@@ -32,13 +32,27 @@ The following examples are provided in the examples directory:
 
 ## Unit Tests
 
-Run unit tests using `npm run test`.  The majority of tests are driven by test vectors located in the [slp-unit-test-data](https://github.com/simpleledger/slp-unit-test-data.git) repository.
+`$ npm run test`
+
+The majority of tests are driven by test vectors located in the [slp-unit-test-data](https://github.com/simpleledger/slp-unit-test-data.git) repository.
 
 
 
 ## Differential Testing
 
 Run differential fuzzing with Electron Cash SLP edition by following the docs in [./fuzzer/README.md](./fuzzer/README.md).
+
+
+
+## Code Coverage
+
+`$ npm run test`
+
+Once differential testing is setup, you can see the lines covered by the fuzzer testing for ./lib/slp.ts:
+```
+$ cd fuzzer
+$ ./coverage.sh
+```
 
 
 

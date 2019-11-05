@@ -3,7 +3,7 @@ import cp from "child_process";
 import fs from "fs";
 import { Slp } from "../lib/slp";
 
-function fuzz(buf: Buffer) {
+export function fuzz(buf: Buffer) {
     let result = null;
     let output;
     try {
@@ -77,7 +77,3 @@ case "--stdin":
     fuzz(stdinBuffer);
     break;
 }
-
-module.exports = {
-    fuzz,
-};

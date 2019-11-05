@@ -8,5 +8,9 @@ fuzzer/corpus
 fuzzer/inputs
 fuzzer/crash-*
 fuzzer/corpus.tar.gz
+fuzzer/*.ts
+!fuzzer/dfuzz.ts
+!fuzzer/coverage.ts
 .DS_Store
 .nyc_output
+coverage
