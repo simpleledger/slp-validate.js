@@ -22,9 +22,9 @@ To start a fuzzing campaign using the `corpus` directory to store the input file
 
 ```
 $ mkdir -p corpus
-$ python3 ./extract_data_from_unit_test.py ./node_modules/slp-unit-test-data ./corpus
+$ python3 ./extract_data_from_unit_test.py ../node_modules/slp-unit-test-data ./corpus
 $ tsc
-$ ./node_modules/.bin/jsfuzz dfuzz.js corpus
+$ ../node_modules/.bin/jsfuzz dfuzz.js corpus
 ```
 
 The fuzzer will automatically stop if it finds an issue. For instance:

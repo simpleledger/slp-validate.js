@@ -12,8 +12,5 @@
     "plugins": [
       { "name": "typescript-tslint-plugin" }
     ]
-  },
-  "exclude": [
-    "fuzzer"
-  ]
+  }
 }
