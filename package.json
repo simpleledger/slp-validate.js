@@ -1,9 +1,10 @@
 {
   "name": "slp-validate",
-  "version": "1.1.1",
-  "description": "SLP transaction validator",
+  "version": "1.1.2",
+  "description": "JS SLP transaction validator",
   "main": "index.js",
   "files": [
+    "*.d.ts",
     "lib/*.js",
     "lib/*.d.ts",
     "dist/"
