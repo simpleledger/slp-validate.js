@@ -58,6 +58,11 @@ $ ./coverage.sh
 
 ## Change Log
 
+### 1.1.2
+- fixed missing index.d.ts file
+- added differential fuzzing tests
+- added code coverage
+
 ### 1.1.1
 - added testing framework for differential fuzzing
 - fix missing null check in parseSlpOutputScript
