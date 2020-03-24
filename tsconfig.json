@@ -12,5 +12,16 @@
     "plugins": [
       { "name": "typescript-tslint-plugin" }
     ]
-  }
+  },
+  "include": [
+    "lib/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "test/**/*.ts",
+    "examples"
+  ],
+  "files": [
+    "index.ts"
+  ]
 }
