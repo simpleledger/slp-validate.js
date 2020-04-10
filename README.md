@@ -58,6 +58,14 @@ $ ./coverage.sh
 
 ## Change Log
 
+### 1.2.0
+- Update tsconfig & unit test config
+- Linting nits
+- (breaking change) Created Crypto.HashTxid() method and removed reverse from Crypto.Hash256(), removed Crypto.hash256()
+
+### 1.1.3
+- move @types/big.js to dep
+
 ### 1.1.2
 - fixed missing index.d.ts file
 - added differential fuzzing tests
