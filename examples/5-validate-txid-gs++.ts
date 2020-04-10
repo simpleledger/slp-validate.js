@@ -21,7 +21,7 @@ const txid = "3ff425384539519e815507f7f6739d9c12a44af84ff895601606b85157e0fb19";
     const dag = new Map<string, Buffer>();
     (await gs.graphSearchFor(txid)).getTxdataList_asU8().forEach((txn) => {
         const txnBuf = Buffer.from(txn);
-        const id = Crypto.hash256(txnBuf).toString("hex");
+        const id = Crypto.HashTxid(txnBuf).toString("hex");
         dag.set(id, txnBuf);
     });
 

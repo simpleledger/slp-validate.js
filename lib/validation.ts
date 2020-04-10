@@ -44,7 +44,7 @@ export class ValidatorType1 {
     }
 
     public addValidationFromStore(hex: string, isValid: boolean) {
-        const id = Crypto.hash256(Buffer.from(hex, "hex")).toString("hex");
+        const id = Crypto.HashTxid(Buffer.from(hex, "hex")).toString("hex");
         if (!this.cachedValidations.has(id)) {
             this.cachedValidations.set(id,
                 { validity: isValid, parents: [], details: null, invalidReason: null, waiting: false });
@@ -125,10 +125,10 @@ export class ValidatorType1 {
         let txid;
         if (typeof txn === "string") {
             const txnBuf = Buffer.from(txn, "hex");
-            txid = Crypto.hash256(txnBuf).toString("hex");
+            txid = Crypto.HashTxid(txnBuf).toString("hex");
             this.cachedRawTransactions.set(txid, txnBuf);
         } else {
-            txid = Crypto.hash256(txn).toString("hex");
+            txid = Crypto.HashTxid(txn).toString("hex");
             this.cachedRawTransactions.set(txid, txn);
         }
 

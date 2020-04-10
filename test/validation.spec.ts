@@ -15,7 +15,7 @@ describe("Slp", () => {
                 const getRawUnitTestTransaction: GetRawTransactionAsync = async (txid: string) => {
                     const allTxns: SlpTestTxn[] = test.when.concat(test.should);
                     const txn = allTxns.find((i) => {
-                        const hash = Crypto.hash256(Buffer.from(i.tx, "hex")).toString("hex");
+                        const hash = Crypto.HashTxid(Buffer.from(i.tx, "hex")).toString("hex");
                         return hash === txid;
                     });
                     if (txn) {
@@ -32,7 +32,7 @@ describe("Slp", () => {
                     slpValidator.addValidationFromStore(w.tx, w.valid);
                 });
 
-                const txid = Crypto.hash256(Buffer.from(test.should[0].tx, "hex")).toString("hex");
+                const txid = Crypto.HashTxid(Buffer.from(test.should[0].tx, "hex")).toString("hex");
                 const shouldBeValid = test.should[0].valid;
                 let isValid;
                 try {
