@@ -58,7 +58,7 @@ export class ValidatorType1 {
         const cached: Validation = this.cachedValidations.get(txid)!;
 
         if (!cached) {
-            throw Error("txid is missing from cachedValidations.")
+            throw Error("txid is missing from cachedValidations.");
         }
 
         while (true) {
@@ -94,11 +94,11 @@ export class ValidatorType1 {
         }
         if (this.cachedRawTransactions.has(txid)) {
             if (this.cachedRawTransactions.get(txid)!.length < 60) {
-                throw Error("Valid transaction data not provided.")
+                throw Error("Valid transaction data not provided.");
             }
             return this.cachedRawTransactions.get(txid)!;
         }
-        throw Error("Transaction data not provided (null or undefined).")
+        throw Error("Transaction data not provided (null or undefined).");
     }
 
     /**
@@ -193,7 +193,7 @@ export class ValidatorType1 {
         if (!valid && this.cachedValidations.get(txid)!.invalidReason) {
             this.logger.log("[slp-validate] Invalid Reason: " + this.cachedValidations.get(txid)!.invalidReason);
         } else if (!valid) {
-            this.logger.log("[slp-validate] Invalid Reason: unknown (result is user supplied)")
+            this.logger.log("[slp-validate] Invalid Reason: unknown (result is user supplied)");
  }
         return valid;
     }
@@ -343,7 +343,7 @@ export class ValidatorType1 {
                 validation.validity = nft_parent_dag_validity;
                 validation.waiting = false;
                 if (!nft_parent_dag_validity) {
-                    validation.invalidReason = "NFT1 child GENESIS does not have valid parent DAG."
+                    validation.invalidReason = "NFT1 child GENESIS does not have valid parent DAG.";
                 }
                 return validation.validity!;
             } else {
@@ -380,7 +380,7 @@ export class ValidatorType1 {
             if (validation.parents.length !== 1) {
                 validation.validity = false;
                 validation.waiting = false;
-                validation.invalidReason = "MINT transaction must have 1 valid baton parent."
+                validation.invalidReason = "MINT transaction must have 1 valid baton parent.";
                 return validation.validity!;
             }
         } else if (slpmsg.transactionType === SlpTransactionType.SEND) {
@@ -429,7 +429,7 @@ export class ValidatorType1 {
             if (tokenOutQty.gt(tokenInQty)) {
                 validation.validity = false;
                 validation.waiting = false;
-                validation.invalidReason = "Token outputs are greater than possible token inputs."
+                validation.invalidReason = "Token outputs are greater than possible token inputs.";
                 return validation.validity!;
             }
         }
@@ -455,7 +455,7 @@ export class ValidatorType1 {
             if (tokenOutQty.gt(validInputQty)) {
                 validation.validity = false;
                 validation.waiting = false;
-                validation.invalidReason = "Token outputs are greater than valid token inputs."
+                validation.invalidReason = "Token outputs are greater than valid token inputs.";
                 return validation.validity!;
             }
         }
@@ -466,7 +466,7 @@ export class ValidatorType1 {
             if (validation.details!.versionType !== validVersionType) {
                 validation.validity = false;
                 validation.waiting = false;
-                validation.invalidReason = "SLP version/type mismatch from valid parent."
+                validation.invalidReason = "SLP version/type mismatch from valid parent.";
                 return validation.validity!;
             }
         }
@@ -477,8 +477,8 @@ export class ValidatorType1 {
 
     public async validateSlpTransactions(txids: string[]): Promise<string[]> {
         const res = [];
-        for (let i = 0; i < txids.length; i++) {
-            res.push((await this.isValidSlpTxid({ txid: txids[i] })) ? txids[i] : "");
+        for (const txid of txids) {
+            res.push((await this.isValidSlpTxid({ txid })) ? txid : "");
         }
         return res.filter((id: string) => id.length > 0);
     }
