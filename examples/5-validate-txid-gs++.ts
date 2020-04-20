@@ -24,21 +24,24 @@ const excludeList: string[] = [
 const dag = new Map<string, Buffer>();
 const getRawTransaction = async (id: string) => {
     if (! dag.has(id)) {
-        throw Error("Graph search response is missing txid");
+        if (! excludeList.includes(id)) {
+            { return Buffer.alloc(60); }
+        }
+        throw Error(`gs++ server response is missing txid ${id}`);
     }
     return dag.get(id)!;
 };
 const validator = new ValidatorType1({ getRawTransaction });
 
 for (const validTxid of excludeList) {
-    validator.addValidationFromStore(validTxid, true);
+    validator.addValidTxidFromStore(validTxid);
 }
 
 (async () => {
     console.time("SLP-VALIDATE-W-GRAPH-SEARCH");
 
     // perform graph search
-    const gs = new GraphSearchClient(); // optional set server url
+    const gs = new GraphSearchClient({url: "0.0.0.0:50051"}); // optional set server url
     let downloadCount = 0;
     (await gs.graphSearchFor({hash: txid, excludeList})).getTxdataList_asU8().forEach((txn) => {
         const txnBuf = Buffer.from(txn);

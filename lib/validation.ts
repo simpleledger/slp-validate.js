@@ -43,14 +43,45 @@ export class ValidatorType1 {
         this.cachedRawTransactions = new CacheMap<string, Buffer>(maxTransactionCacheSize);
     }
 
-    public addValidationFromStore(hex: string, isValid: boolean) {
-        const id = Crypto.HashTxid(Buffer.from(hex, "hex")).toString("hex");
+    // WARNING: this method will be deprecated in next version
+    public addValidationFromStore(txnHex: string, isValid: boolean) {
+        const id = Crypto.HashTxid(Buffer.from(txnHex, "hex")).toString("hex");
         if (!this.cachedValidations.has(id)) {
             this.cachedValidations.set(id,
                 { validity: isValid, parents: [], details: null, invalidReason: null, waiting: false });
         }
         if (!this.cachedRawTransactions.has(id)) {
-            this.cachedRawTransactions.set(id, Buffer.from(hex, "hex"));
+            this.cachedRawTransactions.set(id, Buffer.from(txnHex, "hex"));
+        }
+    }
+
+    public addValidTxnFromStore(txnHex: string) {
+        const id = Crypto.HashTxid(Buffer.from(txnHex, "hex")).toString("hex");
+        if (!this.cachedValidations.has(id)) {
+            this.cachedValidations.set(id,
+            {
+                validity: true, 
+                parents: [],
+                details: null,
+                invalidReason: null,
+                waiting: false 
+            });
+        }
+        if (!this.cachedRawTransactions.has(id)) {
+            this.cachedRawTransactions.set(id, Buffer.from(txnHex, "hex"));
+        }
+    }
+
+    public addValidTxidFromStore(txidHex: string) {
+        if (!this.cachedValidations.has(txidHex)) {
+            this.cachedValidations.set(txidHex,
+            { 
+                validity: true,
+                parents: [],
+                details: null,
+                invalidReason: null,
+                waiting: false
+            });
         }
     }
 
