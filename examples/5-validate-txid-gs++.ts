@@ -41,7 +41,7 @@ for (const validTxid of excludeList) {
     console.time("SLP-VALIDATE-W-GRAPH-SEARCH");
 
     // perform graph search
-    const gs = new GraphSearchClient({url: "0.0.0.0:50051"}); // optional set server url
+    const gs = new GraphSearchClient({url: "gs.nl1.simpleledger.io:50051"}); // optional set server url
     let downloadCount = 0;
     (await gs.graphSearchFor({hash: txid, excludeList})).getTxdataList_asU8().forEach((txn) => {
         const txnBuf = Buffer.from(txn);
