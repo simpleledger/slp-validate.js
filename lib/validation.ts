@@ -408,10 +408,10 @@ export class ValidatorType1 {
                     }
                 } catch (_) { }
             }
-            if (validation.parents.length !== 1) {
+            if (validation.parents.length < 1) {
                 validation.validity = false;
                 validation.waiting = false;
-                validation.invalidReason = "MINT transaction must have 1 valid baton parent.";
+                validation.invalidReason = "MINT transaction must have at least 1 candidate baton parent input.";
                 return validation.validity!;
             }
         } else if (slpmsg.transactionType === SlpTransactionType.SEND) {
@@ -468,10 +468,14 @@ export class ValidatorType1 {
         // Set validity validation-cache for parents, and handle MINT condition with no valid input
         // we don't need to check proper token id since we only added parents with same ID in above steps.
         const parentTxids = [...new Set(validation.parents.map(p => p.txid))];
-        for (let i = 0; i < parentTxids.length; i++) {
-            const valid = await this.isValidSlpTxid({ txid: parentTxids[i] });
-            validation.parents.filter(p => p.txid === parentTxids[i]).map(p => p.valid = valid);
-            if (validation.details!.transactionType === SlpTransactionType.MINT && !valid) {
+        for (const id of parentTxids) {
+            const valid = await this.isValidSlpTxid({ txid: id });
+            validation.parents.filter(p => p.txid === id).map(p => p.valid = valid);
+        }
+
+        // Check MINT for exactly 1 valid MINT baton
+        if (validation.details!.transactionType === SlpTransactionType.MINT) {
+            if (validation.parents.filter(p => p.valid && p.inputQty === null).length !== 1) {
                 validation.validity = false;
                 validation.waiting = false;
                 validation.invalidReason = "MINT transaction with invalid baton parent.";
