@@ -58,7 +58,8 @@ $ ./coverage.sh
 
 ## Change Log
 
-### 1.2.1 (not yet pulished)
+### 1.2.1
+- Fixed false positive case for MINT validation
 - Added new methods "addValidTxnFromStore" and "addValidTxidFromStore" for pre-loading validator cache
 - "addValidationFromStore" will be deprecated in the next version 1.3.0
 - Updated Graph Search (via gs++) snippet in the examples directory 
