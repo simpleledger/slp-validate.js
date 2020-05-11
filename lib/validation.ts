@@ -124,9 +124,6 @@ export class ValidatorType1 {
             this.cachedRawTransactions.set(txid, res);
         }
         if (this.cachedRawTransactions.has(txid)) {
-            if (this.cachedRawTransactions.get(txid)!.length < 60) {
-                throw Error("Valid transaction data not provided.");
-            }
             return this.cachedRawTransactions.get(txid)!;
         }
         throw Error("Transaction data not provided (null or undefined).");
