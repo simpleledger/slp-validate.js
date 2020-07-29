@@ -60,11 +60,11 @@ export class ValidatorType1 {
         if (!this.cachedValidations.has(id)) {
             this.cachedValidations.set(id,
             {
-                validity: true, 
+                validity: true,
                 parents: [],
                 details: null,
                 invalidReason: null,
-                waiting: false 
+                waiting: false
             });
         }
         if (!this.cachedRawTransactions.has(id)) {
@@ -75,7 +75,7 @@ export class ValidatorType1 {
     public addValidTxidFromStore(txidHex: string) {
         if (!this.cachedValidations.has(txidHex)) {
             this.cachedValidations.set(txidHex,
-            { 
+            {
                 validity: true,
                 parents: [],
                 details: null,
@@ -222,8 +222,16 @@ export class ValidatorType1 {
             this.logger.log("[slp-validate] Invalid Reason: " + this.cachedValidations.get(txid)!.invalidReason);
         } else if (!valid) {
             this.logger.log("[slp-validate] Invalid Reason: unknown (result is user supplied)");
- }
+        }
         return valid;
+    }
+
+    public async validateSlpTransactions(txids: string[]): Promise<string[]> {
+        const res = [];
+        for (const txid of txids) {
+            res.push((await this.isValidSlpTxid({ txid })) ? txid : "");
+        }
+        return res.filter((id: string) => id.length > 0);
     }
 
     /**
@@ -247,7 +255,7 @@ export class ValidatorType1 {
      * @param tokenTypeFilter: (optional) token type of the token that should be considered valid
      *
      */
-    async _isValidSlpTxid(txid: string, tokenIdFilter?: string, tokenTypeFilter?: number): Promise<boolean> {
+    private async _isValidSlpTxid(txid: string, tokenIdFilter?: string, tokenTypeFilter?: number): Promise<boolean> {
         // Check to see if this txn has been processed by looking at shared cache, if doesn't exist then download txn.
         if (!this.cachedValidations.has(txid)) {
             this.cachedValidations.set(txid, {
@@ -367,7 +375,11 @@ export class ValidatorType1 {
                     return validation.validity!;
                 }
                 // Continue to check the NFT1 parent DAG
-                let nft_parent_dag_validity = await this.isValidSlpTxid({ txid: inputTxid, tokenIdFilter: undefined, tokenTypeFilter: 0x81 });
+                const nft_parent_dag_validity = await this.isValidSlpTxid({
+                    txid: inputTxid,
+                    tokenIdFilter: undefined,
+                    tokenTypeFilter: 0x81
+                });
                 validation.validity = nft_parent_dag_validity;
                 validation.waiting = false;
                 if (!nft_parent_dag_validity) {
@@ -505,13 +517,5 @@ export class ValidatorType1 {
         validation.validity = true;
         validation.waiting = false;
         return validation.validity!;
-    }
-
-    public async validateSlpTransactions(txids: string[]): Promise<string[]> {
-        const res = [];
-        for (const txid of txids) {
-            res.push((await this.isValidSlpTxid({ txid })) ? txid : "");
-        }
-        return res.filter((id: string) => id.length > 0);
     }
 }
