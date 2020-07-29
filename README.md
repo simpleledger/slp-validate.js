@@ -58,6 +58,10 @@ $ ./coverage.sh
 
 ## Change Log
 
+### 1.2.2
+- Fixed edge case for NFT child validation using updated set of SLP unit tests
+- Removed extraneous transaction length check
+
 ### 1.2.1
 - Fixed false positive case for MINT validation
 - Added new methods "addValidTxnFromStore" and "addValidTxidFromStore" for pre-loading validator cache
