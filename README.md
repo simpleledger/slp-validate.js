@@ -1,5 +1,7 @@
 # slp-validate
 
+[![Coverage Status](https://coveralls.io/repos/github/simpleledger/slp-validate.js/badge.svg?branch=master)](https://coveralls.io/github/simpleledger/slp-validate.js?branch=master)
+
 Lightweight SLP validator with pre-broadcast validation and burn protection.
 
 [![NPM](https://nodei.co/npm/slp-validate.png)](https://nodei.co/npm/slp-validate/)
